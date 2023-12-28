@@ -5,6 +5,7 @@ import Settings from "mdi-react/SettingsIcon"
 import { observer } from "mobx-react-lite"
 import { CSSProperties, FC, useCallback } from "react"
 import { envString } from "../../../common/localize/envString"
+import { CloseablePane } from "../../../components/CloseablePane"
 import { Localized } from "../../../components/Localized"
 import { Tooltip } from "../../../components/Tooltip"
 import { useStores } from "../../hooks/useStores"
@@ -93,100 +94,102 @@ export const Navigation: FC = observer(() => {
   } = useStores()
 
   return (
-    <Container>
-      <FileMenuButton />
+    <CloseablePane closed={false} direction="up">
+      <Container>
+        <FileMenuButton />
 
-      <Tooltip
-        title={
-          <>
-            <Localized default="Switch Tab">switch-tab</Localized> [
-            {envString.cmdOrCtrl}+1]
-          </>
-        }
-        delayDuration={500}
-      >
-        <Tab
-          className={router.path === "/track" ? "active" : undefined}
-          onMouseDown={useCallback(() => (router.path = "/track"), [])}
+        <Tooltip
+          title={
+            <>
+              <Localized default="Switch Tab">switch-tab</Localized> [
+              {envString.cmdOrCtrl}+1]
+            </>
+          }
+          delayDuration={500}
         >
-          <PianoIcon style={IconStyle} viewBox="0 0 128 128" />
+          <Tab
+            className={router.path === "/track" ? "active" : undefined}
+            onMouseDown={useCallback(() => (router.path = "/track"), [])}
+          >
+            <PianoIcon style={IconStyle} viewBox="0 0 128 128" />
+            <TabTitle>
+              <Localized default="Piano Roll">piano-roll</Localized>
+            </TabTitle>
+          </Tab>
+        </Tooltip>
+
+        <Tooltip
+          title={
+            <>
+              <Localized default="Switch Tab">switch-tab</Localized> [
+              {envString.cmdOrCtrl}+2]
+            </>
+          }
+          delayDuration={500}
+        >
+          <Tab
+            className={router.path === "/arrange" ? "active" : undefined}
+            onMouseDown={useCallback(() => (router.path = "/arrange"), [])}
+          >
+            <ArrangeIcon style={IconStyle} viewBox="0 0 128 128" />
+            <TabTitle>
+              <Localized default="Arrange">arrange</Localized>
+            </TabTitle>
+          </Tab>
+        </Tooltip>
+
+        <Tooltip
+          title={
+            <>
+              <Localized default="Switch Tab">switch-tab</Localized> [
+              {envString.cmdOrCtrl}+3]
+            </>
+          }
+          delayDuration={500}
+        >
+          <Tab
+            className={router.path === "/tempo" ? "active" : undefined}
+            onMouseDown={useCallback(() => (router.path = "/tempo"), [])}
+          >
+            <TempoIcon style={IconStyle} viewBox="0 0 128 128" />
+            <TabTitle>
+              <Localized default="Tempo">tempo</Localized>
+            </TabTitle>
+          </Tab>
+        </Tooltip>
+
+        <FlexibleSpacer />
+
+        <Tab
+          onClick={useCallback(
+            () => (rootViewStore.openSettingDialog = true),
+            [],
+          )}
+        >
+          <Settings style={IconStyle} />
           <TabTitle>
-            <Localized default="Piano Roll">piano-roll</Localized>
+            <Localized default="Settings">settings</Localized>
           </TabTitle>
         </Tab>
-      </Tooltip>
 
-      <Tooltip
-        title={
-          <>
-            <Localized default="Switch Tab">switch-tab</Localized> [
-            {envString.cmdOrCtrl}+2]
-          </>
-        }
-        delayDuration={500}
-      >
-        <Tab
-          className={router.path === "/arrange" ? "active" : undefined}
-          onMouseDown={useCallback(() => (router.path = "/arrange"), [])}
-        >
-          <ArrangeIcon style={IconStyle} viewBox="0 0 128 128" />
+        <Tab onClick={useCallback(() => (rootViewStore.openHelp = true), [])}>
+          <Help style={IconStyle} />
           <TabTitle>
-            <Localized default="Arrange">arrange</Localized>
+            <Localized default="Help">help</Localized>
           </TabTitle>
         </Tab>
-      </Tooltip>
 
-      <Tooltip
-        title={
-          <>
-            <Localized default="Switch Tab">switch-tab</Localized> [
-            {envString.cmdOrCtrl}+3]
-          </>
-        }
-        delayDuration={500}
-      >
-        <Tab
-          className={router.path === "/tempo" ? "active" : undefined}
-          onMouseDown={useCallback(() => (router.path = "/tempo"), [])}
-        >
-          <TempoIcon style={IconStyle} viewBox="0 0 128 128" />
+        <Tab>
+          <Forum style={IconStyle} />
           <TabTitle>
-            <Localized default="Tempo">tempo</Localized>
+            <a href="https://discord.gg/XQxzNdDJse" target="_blank">
+              Discord
+            </a>
           </TabTitle>
         </Tab>
-      </Tooltip>
 
-      <FlexibleSpacer />
-
-      <Tab
-        onClick={useCallback(
-          () => (rootViewStore.openSettingDialog = true),
-          [],
-        )}
-      >
-        <Settings style={IconStyle} />
-        <TabTitle>
-          <Localized default="Settings">settings</Localized>
-        </TabTitle>
-      </Tab>
-
-      <Tab onClick={useCallback(() => (rootViewStore.openHelp = true), [])}>
-        <Help style={IconStyle} />
-        <TabTitle>
-          <Localized default="Help">help</Localized>
-        </TabTitle>
-      </Tab>
-
-      <Tab>
-        <Forum style={IconStyle} />
-        <TabTitle>
-          <a href="https://discord.gg/XQxzNdDJse" target="_blank">
-            Discord
-          </a>
-        </TabTitle>
-      </Tab>
-
-      <UserButton />
-    </Container>
+        <UserButton />
+      </Container>
+    </CloseablePane>
   )
 })

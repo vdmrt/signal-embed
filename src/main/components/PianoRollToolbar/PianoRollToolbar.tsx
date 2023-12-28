@@ -1,6 +1,7 @@
 import styled from "@emotion/styled"
 import { observer } from "mobx-react-lite"
 import { FC, useCallback } from "react"
+import { CloseablePane } from "../../../components/CloseablePane"
 import { useStores } from "../../hooks/useStores"
 import InstrumentBrowser from "../InstrumentBrowser/InstrumentBrowser"
 import { AutoScrollButton } from "../Toolbar/AutoScrollButton"
@@ -54,33 +55,35 @@ export const PianoRollToolbar: FC = observer(() => {
   }
 
   return (
-    <Toolbar>
-      <TrackListMenuButton />
+    <CloseablePane closed={false} direction="up">
+      <Toolbar>
+        <TrackListMenuButton />
 
-      <TrackNameInput />
+        <TrackNameInput />
 
-      <EventListButton />
+        <EventListButton />
 
-      <Spacer />
+        <Spacer />
 
-      <InstrumentButton />
-      <InstrumentBrowser />
+        <InstrumentButton />
+        <InstrumentBrowser />
 
-      <VolumeSlider trackId={selectedTrackId} />
-      <PanSlider trackId={selectedTrackId} />
+        <VolumeSlider trackId={selectedTrackId} />
+        <PanSlider trackId={selectedTrackId} />
 
-      <FlexibleSpacer />
+        <FlexibleSpacer />
 
-      <PianoRollToolSelector />
+        <PianoRollToolSelector />
 
-      <QuantizeSelector
-        value={quantize}
-        enabled={isQuantizeEnabled}
-        onSelect={onSelectQuantize}
-        onClickSwitch={onClickQuantizeSwitch}
-      />
+        <QuantizeSelector
+          value={quantize}
+          enabled={isQuantizeEnabled}
+          onSelect={onSelectQuantize}
+          onClickSwitch={onClickQuantizeSwitch}
+        />
 
-      <AutoScrollButton onClick={onClickAutoScroll} selected={autoScroll} />
-    </Toolbar>
+        <AutoScrollButton onClick={onClickAutoScroll} selected={autoScroll} />
+      </Toolbar>
+    </CloseablePane>
   )
 })

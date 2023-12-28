@@ -3,6 +3,7 @@ import { FC } from "react"
 import { Localized } from "../../../components/Localized"
 import { MenuDivider, MenuItem } from "../../../components/Menu"
 import { createSong, saveSong } from "../../actions"
+import { exportAsB64 } from "../../actions/embed"
 import { openFile, saveFile, saveFileAs } from "../../actions/file"
 import { useLocalization } from "../../hooks/useLocalization"
 import { useStores } from "../../hooks/useStores"
@@ -54,6 +55,10 @@ export const FileMenu: FC<{ close: () => void }> = observer(({ close }) => {
     saveSong(rootStore)()
   }
 
+  const onClickExport = async () => {
+    close()
+    await exportAsB64(rootStore)
+  }
   return (
     <>
       <MenuItem onClick={onClickNew}>
@@ -79,6 +84,10 @@ export const FileMenu: FC<{ close: () => void }> = observer(({ close }) => {
 
       <MenuItem onClick={onClickDownload}>
         <Localized default="Download MIDI File">download-midi</Localized>
+      </MenuItem>
+
+      <MenuItem onClick={onClickExport}>
+        <Localized default="Save As">save-as</Localized>
       </MenuItem>
     </>
   )
