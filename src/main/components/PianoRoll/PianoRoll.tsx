@@ -11,13 +11,25 @@ import {
   HorizontalScaleScrollBar,
   VerticalScaleScrollBar,
 } from "../inputs/ScaleScrollBar"
+import { BAR_WIDTH } from "../inputs/ScrollBar"
 import { PianoRollStage } from "./PianoRollStage"
 import { StyledSplitPane } from "./StyledSplitPane"
 
+//2023/12/26 prevented pane closer from covering horizontal scroll bar
+//(by separating drawing area for HorizontalScaleScrollBar and StyledSplitPane)
+const ParentSplitPane = styled.div`
+  flex-grow: 1;
+  position: relative;
+`
+const ParentScrollBar = styled.div`
+  height: ${BAR_WIDTH}px;
+`
 const Parent = styled.div`
   flex-grow: 1;
   background: ${({ theme }) => theme.backgroundColor};
   position: relative;
+  display: flex;
+  flex-direction: column;
 `
 
 const Alpha = styled.div`
@@ -33,7 +45,8 @@ const Alpha = styled.div`
 
 const Beta = styled.div`
   border-top: 1px solid ${({ theme }) => theme.dividerColor};
-  height: calc(100% - 17px);
+  height: calc(100%);
+  width: 100%;
 `
 
 const PianoRollWrapper: FC = observer(() => {
@@ -104,30 +117,39 @@ const PianoRollWrapper: FC = observer(() => {
 
   return (
     <Parent ref={ref}>
-      <StyledSplitPane split="horizontal" minSize={50} defaultSize={"60%"}>
-        <Alpha onWheel={onWheel} ref={alphaRef}>
-          <PianoRollStage width={size.width} height={alphaHeight} />
-          <VerticalScaleScrollBar
-            scrollOffset={scrollTop}
-            contentLength={contentHeight}
-            onScroll={useCallback((v: any) => s.setScrollTopInPixels(v), [s])}
-            onClickScaleUp={onClickScaleUpVertical}
-            onClickScaleDown={onClickScaleDownVertical}
-            onClickScaleReset={onClickScaleResetVertical}
-          />
-        </Alpha>
-        <Beta>
-          <ControlPane />
-        </Beta>
-      </StyledSplitPane>
-      <HorizontalScaleScrollBar
-        scrollOffset={scrollLeft}
-        contentLength={contentWidth}
-        onScroll={useCallback((v: any) => s.setScrollLeftInPixels(v), [s])}
-        onClickScaleUp={onClickScaleUpHorizontal}
-        onClickScaleDown={onClickScaleDownHorizontal}
-        onClickScaleReset={onClickScaleResetHorizontal}
-      />
+      <ParentSplitPane>
+        <StyledSplitPane
+          split="horizontal"
+          minSize={50}
+          defaultSize={"40%"}
+          primary="second"
+        >
+          <Alpha onWheel={onWheel} ref={alphaRef}>
+            <PianoRollStage width={size.width} height={alphaHeight} />
+            <VerticalScaleScrollBar
+              scrollOffset={scrollTop}
+              contentLength={contentHeight}
+              onScroll={useCallback((v: any) => s.setScrollTopInPixels(v), [s])}
+              onClickScaleUp={onClickScaleUpVertical}
+              onClickScaleDown={onClickScaleDownVertical}
+              onClickScaleReset={onClickScaleResetVertical}
+            />
+          </Alpha>
+          <Beta>
+            <ControlPane />
+          </Beta>
+        </StyledSplitPane>
+      </ParentSplitPane>
+      <ParentScrollBar>
+        <HorizontalScaleScrollBar
+          scrollOffset={scrollLeft}
+          contentLength={contentWidth}
+          onScroll={useCallback((v: any) => s.setScrollLeftInPixels(v), [s])}
+          onClickScaleUp={onClickScaleUpHorizontal}
+          onClickScaleDown={onClickScaleDownHorizontal}
+          onClickScaleReset={onClickScaleResetHorizontal}
+        />
+      </ParentScrollBar>
     </Parent>
   )
 })

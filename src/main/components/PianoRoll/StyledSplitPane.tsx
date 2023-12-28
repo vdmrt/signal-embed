@@ -1,8 +1,11 @@
 import styled from "@emotion/styled"
-import SplitPane from "@ryohey/react-split-pane"
+//import SplitPane from "@ryohey/react-split-pane"
+import CloseableSplitPane from "../../../components/CloseableSplitPane"
 
-export const StyledSplitPane = styled(SplitPane)`
+//2023/12/26 replaced with closeable version
+export const StyledSplitPane = styled(CloseableSplitPane)`
   .Resizer {
+    z-index: 1;
     background: #000;
     opacity: 0.2;
     -moz-box-sizing: border-box;
