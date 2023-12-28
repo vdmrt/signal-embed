@@ -1,7 +1,10 @@
 import { makeObservable, observable } from "mobx"
+import { localized } from "../../common/localize/localizedString"
 import Player from "../../common/player"
 import Song, { emptySong } from "../../common/song"
 import TrackMute from "../../common/trackMute"
+import { loadSongFromExternalMidiFile } from "../../firebase/song"
+import { setSong } from "../actions"
 import { SerializedState, pushHistory } from "../actions/history"
 import { GroupOutput } from "../services/GroupOutput"
 import { MIDIInput, previewMidiInput } from "../services/MIDIInput"
@@ -85,12 +88,33 @@ export default class RootStore {
 
   private async init() {
     try {
+      this.rootViewStore.openLoadingDialog = true
+      this.rootViewStore.loadingDialogMessage = localized(
+        "initializing",
+        "Initializing...",
+      )
       await this.synth.setup()
       await this.soundFontStore.init()
       this.setupMetronomeSynth()
+      await this.loadExternalMidiOnLaunchIfNeeded()
     } catch (e) {
       this.rootViewStore.initializeError = e as Error
       this.rootViewStore.openInitializeErrorDialog = true
+    } finally {
+      this.rootViewStore.openLoadingDialog = false
+    }
+  }
+
+  private async loadExternalMidiOnLaunchIfNeeded() {
+    const params = new URLSearchParams(window.location.search)
+    const openParam = params.get("open")
+
+    if (openParam) {
+      this.rootViewStore.loadingDialogMessage =
+        localized("loading-external-midi", "Loading external midi file...") ??
+        null
+      const song = await loadSongFromExternalMidiFile(openParam)
+      setSong(this)(song)
     }
   }
 

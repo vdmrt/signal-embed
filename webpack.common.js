@@ -1,6 +1,7 @@
 const path = require("path")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 const webpack = require("webpack")
+const Dotenv = require("dotenv-webpack")
 
 module.exports = {
   context: __dirname,
@@ -27,10 +28,9 @@ module.exports = {
     extensions: [".js", ".jsx", ".ts", ".tsx"],
   },
   plugins: [
-    new webpack.EnvironmentPlugin({
-      VERCEL_ENV: null,
-      VERCEL_GIT_COMMIT_SHA: null,
-      SENTRY_DSN: null,
+    new Dotenv({
+      safe: true,
+      systemvars: true,
     }),
     new HtmlWebpackPlugin({
       inject: true,
