@@ -1,15 +1,41 @@
 import JSZip from "jszip"
 import { songFromMidi, songToMidi } from "../../common/midi/midiConversion"
+import { CLASS_NAME_WINDOW } from "../index"
 import RootStore from "../stores/RootStore"
 import { setSong } from "./song"
 
-export const exportAsB64 = async ({ song }: RootStore) => {
+export const exportTag = (rootStore: RootStore) => {
+  const { exportTagStore, pianoRollStore, player } = rootStore
+  exportTagStore.tag = `<script src="${
+    document.URL.replace(/[^/]*$/, "") + "browserMain.js"
+  }" defer></script>
+<div class="${CLASS_NAME_WINDOW}" style="width: ${
+    exportTagStore.tagWidth
+  }px;height: ${
+    exportTagStore.tagHeight
+  }px;border: 1px solid #999;resize: both;overflow: hidden;"
+data-scale-x="${pianoRollStore.scaleX}" data-scale-y="${
+    pianoRollStore.scaleY
+  }" data-scroll-left="${pianoRollStore.scrollLeft}" data-scroll-top="${
+    pianoRollStore.scrollTop
+  }" data-selected-track-id="${
+    pianoRollStore.selectedTrackId
+  }" data-position="${player.position}" 
+data-midi="${exportTagStore.tagSongData}">`
+  return exportTagStore.tag
+}
+
+export const exportAsBase64String = async ({
+  song,
+  exportTagStore,
+}: RootStore) => {
   try {
     const data = songToMidi(song).buffer
-    const b64 = arrayBufferToBase64String(data)
-    console.log(b64)
+    //const b64 = arrayBufferToBase64String(data)
+    //console.log(b64)
     const b642 = await arrayBufferToZipBase64String(data)
-    console.log(b642)
+    //console.log(b642)
+    exportTagStore.tagSongData = b642
   } catch (ex) {
     const msg = "Unable to save file."
     console.error(msg, ex)
@@ -25,7 +51,7 @@ export const loadFromBase64 = async (
   const arrayBuffer = await zipBase64StringToArrayBuffer(zipBase64String)
   if (arrayBuffer != undefined) {
     const song = songFromMidi(new Uint8Array(arrayBuffer))
-    console.log(zipBase64String)
+    //console.log(zipBase64String)
     song.fileHandle = null
     song.filepath = ""
     song.isSaved = true

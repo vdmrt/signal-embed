@@ -19,7 +19,7 @@ configure({
 //const root = createRoot(document.querySelector("#root")!)
 //root.render(<App />)
 
-const CLASS_NAME_WINDOW = "singal_window"
+export const CLASS_NAME_WINDOW = "singal_window"
 const CLASS_NAME_ENDFLAG = "signal_end"
 
 const es: HTMLCollectionOf<Element> =

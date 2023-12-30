@@ -6,6 +6,7 @@ export const playOrPause =
     if (player.isPlaying) {
       player.stop()
     } else {
+      player.position = player.position //20231230 SettingLoader doesn't send event correctly for some reason
       player.play()
     }
   }
