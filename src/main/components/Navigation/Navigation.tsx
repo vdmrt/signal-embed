@@ -91,10 +91,11 @@ export const Navigation: FC = observer(() => {
     rootViewStore,
     authStore: { user },
     router,
+    embedCodeStore,
   } = useStores()
 
   return (
-    <CloseablePane closed={false} direction="up">
+    <CloseablePane closed={embedCodeStore.closeablePaneDefault} direction="up">
       <Container>
         <FileMenuButton />
 

@@ -14,7 +14,7 @@ import ArrangeViewStore from "./ArrangeViewStore"
 import { AuthStore } from "./AuthStore"
 import { CloudFileStore } from "./CloudFileStore"
 import { ControlStore } from "./ControlStore"
-import { EmbedCodeStore } from "./EmbedCode"
+import { EmbedCodeStore } from "./EmbedCodeStore"
 import { ExportStore } from "./ExportStore"
 import HistoryStore from "./HistoryStore"
 import { MIDIDeviceStore } from "./MIDIDeviceStore"
@@ -48,7 +48,7 @@ export default class RootStore {
   readonly midiInput = new MIDIInput()
   readonly midiRecorder: MIDIRecorder
   readonly soundFontStore: SoundFontStore
-  readonly exportTagStore = new EmbedCodeStore()
+  readonly embedCodeStore = new EmbedCodeStore()
 
   constructor() {
     makeObservable(this, {

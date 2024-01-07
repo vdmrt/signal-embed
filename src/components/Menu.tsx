@@ -15,7 +15,8 @@ const StyledContent = styled(Content)`
   border: 1px solid ${({ theme }) => theme.backgroundColor};
   margin: 0 1rem;
   padding: 0.5rem 0;
-`
+  z-index: 10;
+` //2024/1/7 prevent covered by CloseablePanes
 
 const List = styled.ul`
   list-style: none;

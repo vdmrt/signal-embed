@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react"
+import { Theme, css } from "@emotion/react"
 import React, { Children, ReactElement, useState } from "react"
 
 //2023/12/26 created for closeable split pane.
@@ -10,29 +10,35 @@ const closeablePaneStyle = css`
 const closeablePaneStyleClosed = css`
   display: none;
 `
-const closeablePaneCloserStyle = css`
-  background: #111808;
+//  background: #111808;
+const closeablePaneCloserStyle = (theme: Theme) => css`
+  z-index: 2;
+  background: ${theme.darkBackgroundColor};
   opacity: 0.9;
   position: relative;
 `
+
 const closeablePaneCloserStyleHorizontal = css`
   height: 11px;
 `
 const closeablePaneCloserStyleVertical = css`
   width: 11px;
 `
-const closeablePaneCloserKnobStyle = css`
-  z-index: 3;
+//  background: #231;
+//  &:hover {
+//    background: #788840;
+//  }
+const closeablePaneCloserKnobStyle = (theme: Theme) => css`
+  background: ${theme.backgroundColor};
   height: var(--knob-height);
   width: var(--knob-width);
-  background: #231;
   position: absolute;
   top: 50%;
   left: 50%;
   margin: calc(var(--knob-height) * (-0.5)) 0 0 calc(var(--knob-width) * (-0.5));
 
   &:hover {
-    background: #788840;
+    background: ${theme.secondaryTextColor};
   }
 `
 const closeablePaneCloserKnobStyleHorizontal = css`
@@ -43,10 +49,10 @@ const closeablePaneCloserKnobStyleVertical = css`
   --knob-width: 9px;
   --knob-height: 200px;
 `
-const closeablePaneCloserMarkerStyle = css`
-  z-index: 4;
+//  --marker-color: #b2ce54;
+const closeablePaneCloserMarkerStyle = (theme: Theme) => css`
+  --marker-color: ${theme.textColor};
   --marker-size: 8px;
-  --marker-color: #b2ce54;
   position: absolute;
   top: 50%;
   left: 50%;

@@ -12,6 +12,10 @@ export const SettingLoader: FC<{ elem?: HTMLElement }> = ({ elem }) => {
   if (!initialized) {
     const ds = elem?.dataset
     if (ds !== undefined) {
+      const closeablePaneDefault = ds.minimized
+      if (closeablePaneDefault !== undefined)
+        rootStore.embedCodeStore.closeablePaneDefault =
+          closeablePaneDefault.toLowerCase() === "true"
       let midi = ds.midi as string
       if (midi !== undefined) {
         loadFromBase64(rootStore, midi).then(() => {

@@ -41,7 +41,7 @@ export const App: FC<{ elem?: HTMLElement }> = ({ elem }) => {
                     <SettingLoader elem={elem} />
                     <GlobalKeyboardShortcut />
                     <GlobalCSS />
-                    <RootView />
+                    <RootView elem={elem} />
                   </DialogProvider>
                 </PromptProvider>
               </ToastProvider>

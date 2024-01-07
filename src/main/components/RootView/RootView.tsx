@@ -50,7 +50,7 @@ const Routes: FC = observer(() => {
   )
 })
 
-export const RootView: FC = () => (
+export const RootView: FC<{ elem?: HTMLElement }> = ({ elem }) => (
   <>
     <Column>
       <Navigation />
@@ -72,7 +72,7 @@ export const RootView: FC = () => (
     <ControlSettingDialog />
     <InitializeErrorDialog />
     <OnBeforeUnload />
-    <LoadingDialog />
+    <LoadingDialog elem={elem} />
     <EmbedCodeDialog />
   </>
 )

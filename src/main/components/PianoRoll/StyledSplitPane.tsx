@@ -1,9 +1,13 @@
 import styled from "@emotion/styled"
 //import SplitPane from "@ryohey/react-split-pane"
-import CloseableSplitPane from "../../../components/CloseableSplitPane"
+import { SplitPaneProps } from "@ryohey/react-split-pane"
+import CloseableSplitPane, {
+  CloseableSplitPaneProps,
+} from "../../../components/CloseableSplitPane"
+import { useStores } from "../../hooks/useStores"
 
 //2023/12/26 replaced with closeable version
-export const StyledSplitPane = styled(CloseableSplitPane)`
+export const StyledSplitPane = styled(CloseableSplitPaneDefault)`
   .Resizer {
     z-index: 1;
     background: #000;
@@ -55,3 +59,10 @@ export const StyledSplitPane = styled(CloseableSplitPane)`
     border-color: transparent;
   }
 `
+
+export function CloseableSplitPaneDefault(props: SplitPaneProps) {
+  const rootStore = useStores()
+  const props_: CloseableSplitPaneProps = Object.assign({}, props)
+  props_.closed = rootStore.embedCodeStore.closeablePaneDefault
+  return <CloseableSplitPane {...props_} />
+}

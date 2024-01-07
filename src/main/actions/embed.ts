@@ -5,7 +5,7 @@ import RootStore from "../stores/RootStore"
 import { setSong } from "./song"
 
 export const exportTag = (rootStore: RootStore) => {
-  const { exportTagStore, pianoRollStore, player } = rootStore
+  const { embedCodeStore: exportTagStore, pianoRollStore, player } = rootStore
   exportTagStore.tag = `<script src="${
     document.URL.replace(/[^/]*$/, "") + "browserMain.js"
   }" defer></script>
@@ -13,21 +13,21 @@ export const exportTag = (rootStore: RootStore) => {
     exportTagStore.tagWidth
   }px;height: ${
     exportTagStore.tagHeight
-  }px;border: 1px solid #999;resize: both;overflow: hidden;"
-data-scale-x="${pianoRollStore.scaleX}" data-scale-y="${
-    pianoRollStore.scaleY
-  }" data-scroll-left="${pianoRollStore.scrollLeft}" data-scroll-top="${
-    pianoRollStore.scrollTop
-  }" data-selected-track-id="${
+  }px;border: 1px solid #999;resize: both;overflow: hidden;position: relative;"
+data-minimized="${true}" data-scale-x="${
+    pianoRollStore.scaleX
+  }" data-scale-y="${pianoRollStore.scaleY}" data-scroll-left="${
+    pianoRollStore.scrollLeft
+  }" data-scroll-top="${pianoRollStore.scrollTop}" data-selected-track-id="${
     pianoRollStore.selectedTrackId
   }" data-position="${player.position}" 
-data-midi="${exportTagStore.tagSongData}">`
+data-midi="${exportTagStore.tagSongData}"></div>`
   return exportTagStore.tag
 }
 
 export const exportAsBase64String = async ({
   song,
-  exportTagStore,
+  embedCodeStore: exportTagStore,
 }: RootStore) => {
   try {
     const data = songToMidi(song).buffer

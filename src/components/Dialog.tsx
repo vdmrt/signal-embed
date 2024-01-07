@@ -2,12 +2,14 @@ import { keyframes } from "@emotion/react"
 import styled from "@emotion/styled"
 import {
   Content,
-  DialogProps as Props,
   Overlay,
   Portal,
+  DialogProps as Props,
   Root,
 } from "@radix-ui/react-dialog"
+import { Portal as _Portal1 } from "@radix-ui/react-portal"
 import { FC } from "react"
+import { CLASS_NAME_WINDOW } from "../main/index"
 
 const overlayShow = keyframes`
   from {
@@ -28,10 +30,10 @@ const contentShow = keyframes`
     transform: translate(-50%, -50%) scale(1);
   }
 `
-
+//2023/12/31 configurable position property (fixed or absolute)
 const StyledOverlay = styled(Overlay)`
   background-color: rgba(0, 0, 0, 0.3);
-  position: fixed;
+  z-index: 1;
   inset: 0;
   animation: ${overlayShow} 150ms cubic-bezier(0.16, 1, 0.3, 1);
 `
@@ -40,7 +42,6 @@ const StyledContent = styled(Content)`
   background-color: ${({ theme }) => theme.backgroundColor};
   border-radius: 0.5rem;
   box-shadow: 0 0.5rem 3rem ${({ theme }) => theme.shadowColor};
-  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -57,17 +58,42 @@ const StyledContent = styled(Content)`
   &:focus {
     outline: none;
   }
-`
+  z-index: 10;
+` //2023/12/31 prevent covered by CloseablePanes
 
+//2023/12/31 add "container" of its portal to props
+type PortalProps = React.ComponentPropsWithoutRef<typeof _Portal1>
 export type DialogProps = Props & {
   style?: React.CSSProperties
+  container?: PortalProps["container"]
+  positionFixed?: boolean
 }
 
-export const Dialog: FC<DialogProps> = ({ children, style, ...props }) => (
+export const Dialog: FC<DialogProps> = ({
+  children,
+  style,
+  container,
+  positionFixed,
+  ...props
+}) => (
   <Root {...props}>
-    <Portal>
-      <StyledOverlay />
-      <StyledContent style={style}>{children}</StyledContent>
+    <Portal container={container}>
+      <StyledOverlay
+        style={{
+          position:
+            positionFixed === undefined || positionFixed ? "fixed" : "absolute",
+        }}
+      />
+      <StyledContent
+        className={CLASS_NAME_WINDOW}
+        style={{
+          ...style,
+          position:
+            positionFixed === undefined || positionFixed ? "fixed" : "absolute",
+        }}
+      >
+        {children}
+      </StyledContent>
     </Portal>
   </Root>
 )

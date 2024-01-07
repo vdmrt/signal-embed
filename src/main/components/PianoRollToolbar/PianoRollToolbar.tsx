@@ -24,7 +24,7 @@ const FlexibleSpacer = styled.div`
 `
 
 export const PianoRollToolbar: FC = observer(() => {
-  const { pianoRollStore } = useStores()
+  const { pianoRollStore, embedCodeStore } = useStores()
 
   const {
     quantize,
@@ -55,7 +55,7 @@ export const PianoRollToolbar: FC = observer(() => {
   }
 
   return (
-    <CloseablePane closed={false} direction="up">
+    <CloseablePane closed={embedCodeStore.closeablePaneDefault} direction="up">
       <Toolbar>
         <TrackListMenuButton />
 

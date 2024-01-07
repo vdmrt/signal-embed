@@ -17,7 +17,7 @@ import { useStores } from "../../hooks/useStores"
 //20231230 Added dialog to export as tag
 export const EmbedCodeDialog = observer(() => {
   const rootStore = useStores()
-  const { rootViewStore, exportTagStore } = rootStore
+  const { rootViewStore, embedCodeStore: exportTagStore } = rootStore
   const { openEmbedCodeDialog: open } = rootViewStore
 
   return (

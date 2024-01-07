@@ -5,6 +5,7 @@ export class EmbedCodeStore {
   tagSongData = ""
   tagWidth = 960
   tagHeight = 320
+  closeablePaneDefault = false
 
   constructor() {
     makeObservable(this, {
