@@ -1,8 +1,9 @@
 import { observer } from "mobx-react-lite"
-import { FC } from "react"
+import { FC, useCallback } from "react"
 import { Localized } from "../../../components/Localized"
 import { MenuDivider, MenuItem } from "../../../components/Menu"
 import { createSong, saveSong } from "../../actions"
+import { exportAsBase64String } from "../../actions/embed"
 import { openFile, saveFile, saveFileAs } from "../../actions/file"
 import { useLocalization } from "../../hooks/useLocalization"
 import { useStores } from "../../hooks/useStores"
@@ -54,6 +55,10 @@ export const FileMenu: FC<{ close: () => void }> = observer(({ close }) => {
     saveSong(rootStore)()
   }
 
+  const onClickExport = async () => {
+    close()
+    await exportAsBase64String(rootStore)
+  }
   return (
     <>
       <MenuItem onClick={onClickNew}>
@@ -79,6 +84,15 @@ export const FileMenu: FC<{ close: () => void }> = observer(({ close }) => {
 
       <MenuItem onClick={onClickDownload}>
         <Localized default="Download MIDI File">download-midi</Localized>
+      </MenuItem>
+
+      <MenuItem
+        onClick={useCallback(() => {
+          rootStore.rootViewStore.openEmbedCodeDialog = true
+          onClickExport()
+        }, [])}
+      >
+        <Localized default="Generate Embed Code">generate-embed-code</Localized>
       </MenuItem>
     </>
   )

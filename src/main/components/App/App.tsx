@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/react"
 import { Integrations } from "@sentry/tracing"
-import React from "react"
+import React, { FC } from "react"
 import { HelmetProvider } from "react-helmet-async"
 import { defaultTheme } from "../../../common/theme/Theme"
 import { ActionDialog } from "../../../components/ActionDialog"
@@ -14,6 +14,7 @@ import { ToastProvider } from "../../hooks/useToast"
 import RootStore from "../../stores/RootStore"
 import { GlobalKeyboardShortcut } from "../KeyboardShortcut/GlobalKeyboardShortcut"
 import { RootView } from "../RootView/RootView"
+import { SettingLoader } from "../SettingLoader"
 import { EmotionThemeProvider } from "../Theme/EmotionThemeProvider"
 import { GlobalCSS } from "../Theme/GlobalCSS"
 
@@ -27,7 +28,7 @@ Sentry.init({
 
 const rootStore = new RootStore()
 
-export function App() {
+export const App: FC<{ elem?: HTMLElement }> = ({ elem }) => {
   return (
     <React.StrictMode>
       <StoreContext.Provider value={rootStore}>
@@ -37,9 +38,10 @@ export function App() {
               <ToastProvider component={Toast}>
                 <PromptProvider component={PromptDialog}>
                   <DialogProvider component={ActionDialog}>
+                    <SettingLoader elem={elem} />
                     <GlobalKeyboardShortcut />
                     <GlobalCSS />
-                    <RootView />
+                    <RootView elem={elem} />
                   </DialogProvider>
                 </PromptProvider>
               </ToastProvider>

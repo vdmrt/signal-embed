@@ -296,6 +296,11 @@ export default {
     Helicopter: "ヘリコプター",
     Applause: "拍手",
     Gunshot: "銃声",
+    /* For Embed Code */
+    "generate-embed-code": "埋め込みタグを生成",
+    "embed-code-width": "横幅",
+    "embed-code-height": "高さ",
+    "generated-embed-code": "埋め込みタグ",
   },
   zh: {
     "landing-title": "signal - 在线 MIDI 编辑器",

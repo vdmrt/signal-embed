@@ -1,5 +1,6 @@
 import { css, Global } from "@emotion/react"
 import { useTheme } from "../../hooks/useTheme"
+import { CLASS_NAME_WINDOW } from "../../index"
 
 export const GlobalCSS = () => {
   const theme = useTheme()
@@ -16,7 +17,7 @@ export const GlobalCSS = () => {
           margin: 0;
         }
 
-        body {
+        div.${CLASS_NAME_WINDOW} {
           -webkit-font-smoothing: subpixel-antialiased;
           color: ${theme.textColor};
           background-color: ${theme.backgroundColor};

@@ -11,7 +11,8 @@ module.exports = {
     browserCommunity: "./src/community/index.tsx",
   },
   output: {
-    filename: "[name]-[chunkhash].js",
+    //filename: "[name]-[chunkhash].js",
+    filename: "[name].js",
     clean: true,
   },
   module: {

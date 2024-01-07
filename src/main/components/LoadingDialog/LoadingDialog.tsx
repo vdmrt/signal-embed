@@ -12,18 +12,25 @@ const Message = styled.div`
   align-items: center;
   font-size: 0.8rem;
 `
-
-export const LoadingDialog: FC = observer(() => {
-  const rootStore = useStores()
-  const { rootViewStore } = rootStore
-  const { openLoadingDialog: open, loadingDialogMessage } = rootViewStore
-
-  return (
-    <Dialog open={open} style={{ minWidth: "20rem" }}>
-      <DialogContent style={{ display: "flex", marginBottom: "0" }}>
-        <CircularProgress />
-        <Message>{loadingDialogMessage ?? "Loading..."}</Message>
-      </DialogContent>
-    </Dialog>
-  )
-})
+//2023/12/31 change to draw inside its parent element
+export const LoadingDialog: FC<{ elem?: HTMLElement }> = observer(
+  ({ elem }) => {
+    const rootStore = useStores()
+    const { rootViewStore } = rootStore
+    const { openLoadingDialog: open, loadingDialogMessage } = rootViewStore
+    console.log(elem)
+    return (
+      <Dialog
+        open={open}
+        style={{ minWidth: "20rem" }}
+        container={elem}
+        positionFixed={false}
+      >
+        <DialogContent style={{ display: "flex", marginBottom: "0" }}>
+          <CircularProgress />
+          <Message>{loadingDialogMessage ?? "Loading..."}</Message>
+        </DialogContent>
+      </Dialog>
+    )
+  },
+)

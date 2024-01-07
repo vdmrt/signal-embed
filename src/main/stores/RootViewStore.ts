@@ -9,6 +9,7 @@ export default class RootViewStore {
   openSignInDialog = false
   openCloudFileDialog = false
   openSettingDialog = false
+  openEmbedCodeDialog = false
   openControlSettingDialog = false
   initializeError: Error | null = null
   openInitializeErrorDialog = false
@@ -24,6 +25,7 @@ export default class RootViewStore {
       openSignInDialog: observable,
       openCloudFileDialog: observable,
       openSettingDialog: observable,
+      openEmbedCodeDialog: observable,
       openControlSettingDialog: observable,
       initializeError: observable,
       openInitializeErrorDialog: observable,

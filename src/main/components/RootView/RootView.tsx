@@ -6,6 +6,7 @@ import { ArrangeEditor } from "../ArrangeView/ArrangeEditor"
 import { BuildInfo } from "../BuildInfo"
 import { CloudFileDialog } from "../CloudFileDialog/CloudFileDialog"
 import { ControlSettingDialog } from "../ControlSettingDialog/ControlSettingDialog"
+import { EmbedCodeDialog } from "../EmbedCodeDialog/EmbedCodeDialog"
 import { ExportDialog } from "../ExportDialog/ExportDialog"
 import { ExportProgressDialog } from "../ExportDialog/ExportProgressDialog"
 import { Head } from "../Head/Head"
@@ -49,7 +50,7 @@ const Routes: FC = observer(() => {
   )
 })
 
-export const RootView: FC = () => (
+export const RootView: FC<{ elem?: HTMLElement }> = ({ elem }) => (
   <>
     <Column>
       <Navigation />
@@ -71,6 +72,7 @@ export const RootView: FC = () => (
     <ControlSettingDialog />
     <InitializeErrorDialog />
     <OnBeforeUnload />
-    <LoadingDialog />
+    <LoadingDialog elem={elem} />
+    <EmbedCodeDialog />
   </>
 )
